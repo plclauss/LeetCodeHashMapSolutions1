@@ -173,6 +173,7 @@ bool HashMap::isInMap(const std::unordered_map<char, std::string>& map, const st
 
 // returns shortest subarray containing same degree as nums
 // degree is defined as the max frequency of any number in nums
+// O_tc(n^3), O_sc(n)
 int HashMap::findShortestSubArray(std::vector<int> &nums) {
     // find degree
     // KEY = num in nums
@@ -180,31 +181,66 @@ int HashMap::findShortestSubArray(std::vector<int> &nums) {
     std::unordered_map<int, int> map;
 
     // generate map
-    for (auto& it : nums) {
-        if (map.find(nums[it]) == map.end())
-            map.insert(std::make_pair(nums[it], 1));
+    for (auto &it: nums) {
+        if (map.find(it) == map.end())
+            map.insert(std::make_pair(it, 1));
         else
-            map[nums[it]]++;
+            map[it]++;
     }
 
     // find highest degree
     int deg = 0;
-    for (auto& it : map) {
+    for (auto &it: map) {
         if (map[it.first] > deg)
             deg = map[it.first];
     }
 
-    // find shortest subarray
-    std::vector<int> copy;
+    // new map for distances
+    // KEY = num of suitable degree
+    // MAPPED = dist from farthest key
+    std::unordered_map<int, int> distMap;
+    std::vector<int> arr;
+
     for (auto& it : map) {
         if (map[it.first] == deg) {
-            for (int start = 0, len = start + deg; len < nums.size(); start+=deg, len+=deg) {
-
+            auto itFirst = nums.begin();
+            auto itSecond = nums.begin() + nums.size() - 1;
+            while (itFirst < itSecond) {
+                if (*itFirst == it.first && *itSecond == it.first)
+                    break;
+                if (*itFirst != it.first)
+                    itFirst++;
+                if (*itSecond != it.first)
+                    itSecond--;
             }
+            arr.assign(itFirst, itSecond + 1);
+            if (hasDegree(arr, deg, it.first))
+                distMap.insert(std::make_pair(it.first, arr.size()));
+            arr.clear();
         }
     }
+
+    // iterate through distance map
+    // find smallest dist
+    int smallest = INT_MAX;
+    for (auto& it : distMap)
+        if (distMap[it.first] < smallest)
+            smallest = distMap[it.first];
+
+    return smallest;
 }
 
-int HashMap::findDegree(const std::vector<int>& arr) {
+bool HashMap::hasDegree(const std::vector<int>& copy, int temp, const int numID) {
+    for (auto& num : copy) {
+        if (num == numID)
+            temp--;
+        if (temp == 0)
+            return true;
+    }
+
+    return false;
+}
+
+bool HashMap::isValidSudoku(std::vector<std::vector<char>> &board) {
 
 }

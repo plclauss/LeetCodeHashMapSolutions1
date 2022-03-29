@@ -20,7 +20,7 @@ public:
 private:
     bool isInMap(const std::unordered_map<char, std::string>& map, const std::string& str);
     std::string findSuitableInsert(const std::unordered_map<char, std::string>& map, const std::string& str, int* index);
-    int findDegree(const std::vector<int>& arr);
+    bool hasDegree(const std::vector<int>& copy, int temp, const int numID);
 };
 
 #endif //LEETCODEHASHTABLESOLUTIONS_HASHMAPSOLUTIONS_H
