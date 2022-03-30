@@ -6,8 +6,7 @@ int main() {
     // generate random roman numeral string
     // generate random pattern
     // generate random string pattern
-
-    HashMap instance;
+    // generate random 9x9 matrix
 
     return 0;
 }

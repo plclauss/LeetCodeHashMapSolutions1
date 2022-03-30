@@ -2,7 +2,6 @@
 // Created by plcla on 3/28/2022.
 //
 
-#include <iostream>
 #include "HashMapSolutions.h"
 
 // returns number that occurs most often in array
@@ -144,6 +143,7 @@ bool HashMap::wordPattern(const std::string pattern, const std::string s) {
     return true;
 }
 
+// find string not already in map
 std::string HashMap::findSuitableInsert(const std::unordered_map<char, std::string> &map, const std::string& str, int *index) {
     while (*index < str.size()) {
         if (str.find(' ', *index) == std::string::npos) {
@@ -173,7 +173,7 @@ bool HashMap::isInMap(const std::unordered_map<char, std::string>& map, const st
 
 // returns shortest subarray containing same degree as nums
 // degree is defined as the max frequency of any number in nums
-// O_tc(n^3), O_sc(n)
+// O_tc(n^2), O_sc(n)
 int HashMap::findShortestSubArray(std::vector<int> &nums) {
     // find degree
     // KEY = num in nums
@@ -230,6 +230,7 @@ int HashMap::findShortestSubArray(std::vector<int> &nums) {
     return smallest;
 }
 
+// see if arr has enough of nums in it to match degree level
 bool HashMap::hasDegree(const std::vector<int>& copy, int temp, const int numID) {
     for (auto& num : copy) {
         if (num == numID)
@@ -241,6 +242,58 @@ bool HashMap::hasDegree(const std::vector<int>& copy, int temp, const int numID)
     return false;
 }
 
+// given a 9x9 sudoku map, check if filled in squares produces a valid sudoku board
+// i.e., no repeating nums in any row, col, or 3x3 square
+// O_tc(n^2), O_sc(n)
 bool HashMap::isValidSudoku(std::vector<std::vector<char>> &board) {
+    // KEY = num in row
+    // MAPPED = doesn't matter
+    std::unordered_map<char, int> map;
 
+    // check rows
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            if (board[i][j] != '.' && map.find(board[i][j]) != map.end())
+                return false;
+            if (board[i][j] != '.')
+                map.insert(std::make_pair(board[i][j], 0));
+        }
+        map.clear();
+    }
+
+    // check cols
+    map.clear();
+    for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < 9; i++) {
+            if (board[i][j] != '.' && map.find(board[i][j]) != map.end())
+                return false;
+            if (board[i][j] != '.')
+                map.insert(std::make_pair(board[i][j], 0));
+        }
+        map.clear();
+    }
+
+
+    // check 3x3s
+    // KEY = x
+    // MAPPED = y
+    map.clear();
+    std::unordered_multimap<int, int> XY ({
+        {0, 0}, {0, 3}, {0, 6},
+        {3, 0}, {3, 3}, {3, 6},
+        {6, 0}, {6, 3}, {6, 6}
+    });
+    for (auto& it : XY) {
+        for (int start = it.first; start < (it.first + 3); start++) {
+            for (int end = it.second; end < (it.second + 3); end++) {
+                if (board[start][end] != '.' && map.find(board[start][end]) != map.end())
+                    return false;
+                if (board[start][end] != '.')
+                    map.insert(std::make_pair(board[start][end], 0));
+            }
+        }
+        map.clear();
+    }
+
+    return true;
 }
