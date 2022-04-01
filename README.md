@@ -1,7 +1,3 @@
-**TO DO: (pre-main.cpp)**
-
-1. std::multimap and using it.first/second instead of map(it.first)
-
 ***Note: To test my functions, I custom-wrote several other functions in `main.cpp`. Some of them are extremely effective (the simpler ones, like generating a 1D vector of ints); others are either a bit too random, leading my functions to always return the same thing, or don't cover some edge cases (like `generateRomanNumeralString`).***
 <br>
 ---
