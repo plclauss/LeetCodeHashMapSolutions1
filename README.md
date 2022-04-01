@@ -73,6 +73,7 @@ Moral of the story?<br>
 If you need a true random number generator, call `srand(time(NULL))` at the start of your program, and call `rand()`, as you please.
 <br>
 If you just need to continuously pull a number from a known sequence, use `rand()`. I suppose this might be useful within a for-loop, dedicated to running N test cases. Otherwise, I'm not so sure. We're programmers, though, someone will need it.
+
 ---
 
 ## Vector (std::vector<>) functions - assign, clear, rbegin vs begin
@@ -114,7 +115,9 @@ What's important here is:<br>
 Both of these functions are extremely useful for, well, iterating through some object. The issue lies within whether you're calling other functions which *require* iterators.<br>
 Technically, an iterator is **not** the sae as a reverse iterator, so an attempt to pass a reverse iterator into a function that requires an iterator will produce an error.<br><br>
 Keep this in mind when you try calling a function that requires an iterator, and not a reverse iterator, or vice versa. Or, I don't know, create the exact same function that takes, as input, a reverse iterator, instead.
+
 ---
+
 ## Iterators, auto, and auto&
 
 ### Iterators
@@ -153,6 +156,7 @@ then, by using the `auto` keyword, `num` is a temporary copy of the Nth element 
 <br><br>
 Here, notice the phrase "..sharing the variable with something else." In this case, the "something else" is the `nums` vector. `num` still has the same value's as before; now, it's just a reference. Thus, it is **still modifiable**, and modifying said `num` will effectively **change the contents of the vector `nums`**.<br>
 Sometimes, it may be safer to use `auto const &`, if you'd like a reference variable that is **non-modifiable**.
+
 ---
 
 ## std::unordered_map; more functions
@@ -171,7 +175,9 @@ The `[]` operator acts in the same way that `someMap.at()` works.
 The outcome is the same as clearing a vector, but the procedure behind the scenes is slightly different. We don't need to worry about these, though. We simply call:<br>
 `someMap.clear()`<br>
 and go about our day. We now have an empty map of size 0.
+
 ---
+
 ## Multimap; it.first/second, instead of map.at/map[]
 
 ### Multimap's (std::unordered_multimap)
@@ -186,7 +192,9 @@ In an unordered multimap, you *are* allowed to have identical keys. The only imm
 Using `someMap.at()` or the `[]` operator are not your friends here. I have a strange feeling their behavior will be wildly similar to accessing the mapped value of a shared key in an unordered map. You will get back whichever is first in the map.<br> 
 Thus, for me, in my experience, I used `it.first` and `it.second`. *Technically*, I believe that, even if you used this method, the multimap may return values you did not expect. This method probably only worked for me since I needed to iterate through the entirety of a map, so, either way, I needed to access every element.<br>
 If you're searching for a specific mapped value in a multimap, this may require an additional if statement, or even a searching algorithm at your fingertips.
+
 ---
+
 This is what I learned in my elementary introduction to hash maps.<br>
 That is all for today.<br>
 Happy coding!
