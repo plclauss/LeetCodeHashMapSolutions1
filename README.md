@@ -1,15 +1,21 @@
 ***Note: To test my functions, I custom-wrote several other functions in `main.cpp`. Some of them are extremely effective (the simpler ones, like generating a 1D vector of ints); others are either a bit too random, leading my functions to always return the same thing, or don't cover some edge cases (like `generateRomanNumeralString`).***
+
 <br>
 
-___
+---
 
 This `README.md` is really just the culmination of things I learned while coding the solutions to the LeetCode problems (see `HashMapSolutions.h` for a list of the problems).
 <br>
 Let's start with the easiest topics.
+
 ---
+
 ## Strings (std::string)
+
 There are really only two things here I want to talk about: The `find()` and `substr()` functions.
+
 ### std::string.find()
+
 There are several constructors for this function, but I only needed one:<br>
 > string (1): size_t find (const string& str, size_t pos = 0) const noexcept;
 
@@ -28,6 +34,7 @@ There are two possible outputs of this function:
 2. Otherwise, the function returns `std::string::npos`, equivalent to the size of the string, usually indicating that a math was not found.
 
 ### std::string.substr()
+
 There's only one constructor for this function: 
 > string substr (size_t pos = 0, size_t len = npos) const;
 
@@ -40,9 +47,11 @@ The `size_t len = npos`, however, is a bit different:
 ---
    
 ## rand() and srand()
+
 These are both random number generators. In context, one may be better than the other.
 
 ### rand()
+
 By default, you may call this function, as is, and it will return the next random number in the pseudorandom sequence ranging from `0 to RAND_MAX`.
 <br>
 Note the term "pseudorandom sequence". A pseudorandom sequence is, yes, a random sequence of numbers; however, the sequence of numbers are chosen systematically, such that they are completely deterministic. See the [Wikipedia](https://en.wikipedia.org/wiki/Pseudorandomness).
@@ -56,6 +65,7 @@ Additionally, you may specify the range of values you'd like to pull from. For i
 `rand() % 30 + 1985` to pull from values 1985 to 2014.
 
 ### srand()
+
 While `rand()` was a void function, `srand()` takes in an `unsigned int seed`, responsible for producing a true, random sequence of numbers, for each seed. Thus, for every subsequent call to `rand()`, instead of grabbing the next "random" number in the pseudorandom sequence, `rand()` pulls any random number in the specified range.
 <br><br>
 Typically, the seed is set to `time(NULL)`, which returns the current time, in seconds, the moment this line is executed. Note, though, the `srand()` function is called once, for the most part, and it's probably done at the start of your program. Multiple calls to `srand(time(NULL))` within a short time frame will generate the same sequence of numbers, since the seed will be the same, and at this point, we've regressed to a pseudorandom sequence. 
@@ -119,6 +129,7 @@ Pointers *are* iterators. Though, different kinds of iterators exist for differe
 This is made possible due to the function template features of C++. I'm not going to dive into templates here, though. Just know that's what provides us with different types of iterators. Visit the iterator reference [here](https://www.cplusplus.com/reference/iterator/), and the function template reference [here](https://www.cplusplus.com/doc/oldtutorial/templates/). If confused about what types of iterators you should be using, visit the reference manual for the data type/structure you're working with. In my experience, there are built in functions, like `auto it = vec.begin()`, that return iterators. 
 
 ### auto vs auto&
+
 At its base, you can use `auto` in place of a data type when declaring a variable (*i.e.*, `auto randNum = 7`). The compiler will figure out `randNum` is of integer type. The same goes for `decltype()`.
 <br><br>
 When used in conjunction with iterators and loops, the `auto` keyword becomes a bit more complicated.<br>
@@ -148,6 +159,7 @@ Sometimes, it may be safer to use `auto const &`, if you'd like a reference vari
 ## std::unordered_map; more functions
 
 ### map.at()/map[] vs map.find()
+
 These are pretty simple, too. Follow the general rule of thumb: <br><br>
 If you need to search through the keys within your map, use `someMap.find()`. It will return an iterator to the element, if found, and an iterator to the end of your map (`someMap::end`), if not found.
 <br>
@@ -156,6 +168,7 @@ If looking for the mapped value of a certain key within your map, use `someMap.a
 The `[]` operator acts in the same way that `someMap.at()` works. 
 
 ### map.clear()
+
 The outcome is the same as clearing a vector, but the procedure behind the scenes is slightly different. We don't need to worry about these, though. We simply call:<br>
 `someMap.clear()`<br>
 and go about our day. We now have an empty map of size 0.
@@ -163,12 +176,14 @@ and go about our day. We now have an empty map of size 0.
 ## Multimap; it.first/second, instead of map.at/map[]
 
 ### Multimap's (std::unordered_multimap)
+
 The difference between an unordered multimap and an unordered map is the uniqueness of keys.<br><br>
 In an unordered map, you're only "allowed" to have unique keys. That is, a specific key should not be associated with two different mapped values. *Technically*, you *can* do this, but you will **not** get the result you want. Accessing the mapped value from whichever repeated key will return the mapped value of the first instance of that key within the map.
 <br>
 In an unordered multimap, you *are* allowed to have identical keys. The only immediate issue is how to distinguish between keys for specific mapped values.
 
 ### it.first/second, instead of map.at()/map[]
+
 Using `someMap.at()` or the `[]` operator are not your friends here. I have a strange feeling their behavior will be wildly similar to accessing the mapped value of a shared key in an unordered map. You will get back whichever is first in the map.<br> 
 Thus, for me, in my experience, I used `it.first` and `it.second`. *Technically*, I believe that, even if you used this method, the multimap may return values you did not expect. This method probably only worked for me since I needed to iterate through the entirety of a map, so, either way, I needed to access every element.<br>
 If you're searching for a specific mapped value in a multimap, this may require an additional if statement, or even a searching algorithm at your fingertips.
