@@ -1,7 +1,5 @@
 ***Note: To test my functions, I custom-wrote several other functions in `main.cpp`. Some of them are extremely effective (the simpler ones, like generating a 1D vector of ints); others are either a bit too random, leading my functions to always return the same thing, or don't cover some edge cases (like `generateRomanNumeralString`).***
 
-<br>
-
 ---
 
 This `README.md` is really just the culmination of things I learned while coding the solutions to the LeetCode problems (see `HashMapSolutions.h` for a list of the problems).
@@ -44,6 +42,7 @@ The `size_t len = npos`, however, is a bit different:
 1. By default, you'll see the second parameter has a value of `npos`. You may either write this in manually, or you may call the `substr()` function, without specifying a `size_t len = npos`. Both produce the same output: Copying all characters from `pos` to the end of the string.  
 2. If you decide to specify a value, you may pass in **not** an index, but the **number of characters** you'd like to copy from one string to another.
    1. You will not have to worry if your input value for `len` is longer than the string you're extracting from. The function will simply take as many characters as it can, and return. 
+
 ---
    
 ## rand() and srand()
